@@ -1,0 +1,18 @@
+<div class="stoper">
+  <h2 class="stoper__title">{{ stoper.title }}</h2>
+
+  <div class="stoper__time">
+    <span>{{ stoper.hours.toString().padStart(2, '0') }}:</span>
+    <span>{{ stoper.minutes.toString().padStart(2, '0') }}:</span>
+    <span>{{ stoper.seconds.toString().padStart(2, '0') }}</span>
+  </div>
+
+  <button (click)="changeTimerState()" class="stoper__button">
+    <ng-container *ngIf="interval">
+      <i class="fa-solid fa-pause"></i>
+    </ng-container>
+    <ng-container *ngIf="!interval">
+      <i class="fa-solid fa-play"></i>
+    </ng-container>
+  </button>
+</div>

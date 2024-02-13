@@ -1,0 +1,17 @@
+<div class="app">
+  <div class="app__form">
+    <input
+      type="text"
+      [(ngModel)]="inputValue"
+      class="app__form-input"
+    >
+    <button (click)="addStoper()" class="app__form-button"><i class="fa-solid fa-plus"></i></button>
+  </div>
+
+  <div class="app__list">
+    <div class="app__item stoper" *ngFor="let stoper of stopers">
+      <app-stoper [stoper]="stoper"></app-stoper>
+      <button (click)="deleteStoper(stoper.id)" class="app__button"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+  </div>
+</div>

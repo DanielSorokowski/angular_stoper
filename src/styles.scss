@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+button {
+  cursor: pointer;
+}
+
+.app {
+  display: grid;
+  gap: 20px;
+  padding: 20px;
+  font-family: "Poppins", sans-serif;
+
+  &__form {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+
+    &-input {
+      font-size: 16px;
+      padding: 10px;
+    }
+
+    &-button {
+      height: 100%;
+      aspect-ratio: 1 / 1;
+      width: auto;
+    }
+  }
+
+  &__list {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: repeat(8, 1fr);
+  }
+
+  &__item {
+    box-shadow: 0px 3px 31px 0px rgba(0, 0, 0, 0.21);
+    border-radius: 10px;
+    padding: 10px;
+  }
+
+  &__button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    width: 25px;
+    height: 25px;
+    background: none;
+    border: 0;
+  }
+}
+
+.stoper {
+  display: grid;
+  position: relative;
+
+  &__title {
+    text-align: center;
+  }
+
+  &__time {
+    font-size: 40px;
+    text-align: center;
+  }
+
+  &__button {
+    justify-self: center;
+
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    background: none;
+    border: 0;
+  }
+}
