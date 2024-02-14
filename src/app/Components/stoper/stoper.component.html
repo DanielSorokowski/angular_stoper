@@ -8,10 +8,10 @@
   </div>
 
   <button (click)="changeTimerState()" class="stoper__button">
-    <ng-container *ngIf="interval">
+    <ng-container *ngIf="animationFrameId">
       <i class="fa-solid fa-pause"></i>
     </ng-container>
-    <ng-container *ngIf="!interval">
+    <ng-container *ngIf="!animationFrameId">
       <i class="fa-solid fa-play"></i>
     </ng-container>
   </button>

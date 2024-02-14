@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import { StoperEntity } from '../../Types/stoper.inteface';
 import { CommonModule } from '@angular/common';
 
@@ -9,40 +9,60 @@ import { CommonModule } from '@angular/common';
   templateUrl: './stoper.component.html',
   styleUrl: './stoper.component.scss'
 })
-export class StoperComponent {
-  @Input() stoper!: StoperEntity
-  interval: any
+export class StoperComponent implements OnDestroy {
+  @Input() stoper!: StoperEntity;
+  animationFrameId: number | undefined;
 
   changeTimerState() {
-    if (this.interval) {
-      clearInterval(this.interval);
-      this.interval = undefined;
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+      this.animationFrameId = undefined;
     } else {
       this.startTimer();
     }
   }
+
   startTimer() {
-    this.interval = setInterval(() => {
-      this.stoper.seconds++;
+    let lastTime = performance.now();
 
-      if (this.stoper.seconds >= 60) {
-        this.stoper.seconds = 0;
-        this.stoper.minutes++;
-      }
+    const update = () => {
+      const currentTime = performance.now();
+      const deltaTime = currentTime - lastTime;
 
-      if (this.stoper.minutes >= 60) {
-        this.stoper.minutes = 0;
-        this.stoper.hours++;
-      }
+      if (deltaTime >= 1000) {
+        this.stoper.seconds++;
 
-      const stopersFromLocalStorage = JSON.parse(localStorage.getItem('stopers') || '[]');
-      const updatedStopers = stopersFromLocalStorage.map((storedStoper: StoperEntity) => {
-        if (storedStoper.id === this.stoper.id) {
-          return this.stoper;
+        if (this.stoper.seconds >= 60) {
+          this.stoper.seconds = 0;
+          this.stoper.minutes++;
         }
-        return storedStoper;
-      });
-      localStorage.setItem('stopers', JSON.stringify(updatedStopers));
-    }, 1000)
+
+        if (this.stoper.minutes >= 60) {
+          this.stoper.minutes = 0;
+          this.stoper.hours++;
+        }
+
+        const stopersFromLocalStorage = JSON.parse(localStorage.getItem('stopers') || '[]');
+        const updatedStopers = stopersFromLocalStorage.map((storedStoper: StoperEntity) => {
+          if (storedStoper.id === this.stoper.id) {
+            return this.stoper;
+          }
+          return storedStoper;
+        });
+        localStorage.setItem('stopers', JSON.stringify(updatedStopers));
+
+        lastTime = currentTime;
+      }
+
+      this.animationFrameId = requestAnimationFrame(update);
+    };
+
+    this.animationFrameId = requestAnimationFrame(update);
+  }
+
+  ngOnDestroy() {
+    if (this.animationFrameId) {
+      cancelAnimationFrame(this.animationFrameId);
+    }
   }
 }
